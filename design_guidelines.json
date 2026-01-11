@@ -1,0 +1,167 @@
+{
+  "metadata": {
+    "project_name": "EVENTSNAP",
+    "version": "1.0.0",
+    "description": "Event flyer to calendar converter for students",
+    "theme_strategy": "dark_mode_dominant",
+    "target_audience": "Gen Z Students, Club Leaders, Social Organizers"
+  },
+  "design_system": {
+    "colors": {
+      "palette_name": "Midnight Rave",
+      "background": {
+        "default": "#050505",
+        "surface": "#121212",
+        "surface_highlight": "#1E1E1E"
+      },
+      "text": {
+        "primary": "#FFFFFF",
+        "secondary": "#A1A1AA",
+        "muted": "#52525B"
+      },
+      "brand": {
+        "primary": "#7C3AED",
+        "primary_hover": "#6D28D9",
+        "accent": "#E879F9",
+        "success": "#10B981",
+        "error": "#EF4444"
+      },
+      "gradients": {
+        "hero_glow": "radial-gradient(circle at center, rgba(124, 58, 237, 0.15) 0%, rgba(5, 5, 5, 0) 70%)",
+        "scanner_beam": "linear-gradient(to bottom, transparent, rgba(232, 121, 249, 0.5), transparent)"
+      }
+    },
+    "typography": {
+      "font_family": {
+        "headings": "Outfit, sans-serif",
+        "body": "Manrope, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "weights": {
+        "heading_bold": 700,
+        "heading_medium": 500,
+        "body_regular": 400
+      },
+      "scale": {
+        "h1": "text-4xl md:text-6xl tracking-tight",
+        "h2": "text-2xl md:text-4xl tracking-tight",
+        "body": "text-base md:text-lg leading-relaxed",
+        "caption": "text-xs tracking-wider uppercase text-muted-foreground"
+      }
+    },
+    "spacing": {
+      "container_padding": "p-6 md:p-12",
+      "section_gap": "gap-8 md:gap-16",
+      "element_gap": "gap-4"
+    },
+    "radius": {
+      "default": "rounded-xl",
+      "button": "rounded-full",
+      "card": "rounded-2xl"
+    },
+    "borders": {
+      "subtle": "border border-white/10",
+      "active": "border border-primary/50",
+      "glass": "border border-white/5 backdrop-blur-xl"
+    }
+  },
+  "assets": {
+    "icons": {
+      "library": "lucide-react",
+      "style": "stroke-width={1.5}",
+      "preferred_icons": {
+        "upload": "UploadCloud",
+        "camera": "Camera",
+        "calendar": "CalendarCheck",
+        "download": "Download",
+        "edit": "Pencil",
+        "close": "X",
+        "loading": "Loader2"
+      }
+    },
+    "images": {
+      "demo_flyers": [
+        {
+          "url": "https://images.unsplash.com/photo-1640320295753-ece54bb9a283?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBldmVudCUyMGZseWVyJTIwcG9zdGVyJTIwbWluaW1hbHxlbnwwfHx8fDE3NjgxNDQ2MTV8MA&ixlib=rb-4.1.0&q=85",
+          "alt": "Christmas Party Flyer",
+          "category": "demo_content"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1572700433454-3d77d2fb5c0e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBldmVudCUyMGZseWVyJTIwcG9zdGVyJTIwbWluaW1hbHxlbnwwfHx8fDE3NjgxNDQ2MTV8MA&ixlib=rb-4.1.0&q=85",
+          "alt": "Fitness Event Flyer",
+          "category": "demo_content"
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1641945512526-a465ab05feec?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBldmVudCUyMGZseWVyJTIwcG9zdGVyJTIwbWluaW1hbHxlbnwwfHx8fDE3NjgxNDQ2MTV8MA&ixlib=rb-4.1.0&q=85",
+          "alt": "New Year Event Flyer",
+          "category": "demo_content"
+        }
+      ]
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-primary hover:bg-primary/90 text-white rounded-full px-8 py-6 text-lg font-medium transition-all hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(124,58,237,0.3)]",
+      "secondary": "bg-white/10 hover:bg-white/20 text-white rounded-full px-6 py-4 backdrop-blur-md border border-white/10",
+      "ghost": "hover:bg-white/5 text-muted-foreground hover:text-white"
+    },
+    "cards": {
+      "base": "bg-card/50 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden",
+      "interactive": "hover:border-primary/50 transition-colors cursor-pointer"
+    },
+    "inputs": {
+      "base": "bg-black/20 border-white/10 focus:border-primary/50 focus:ring-primary/20 rounded-xl h-12 text-white placeholder:text-white/20"
+    }
+  },
+  "layout_strategies": {
+    "global": "min-h-screen bg-[#050505] text-white selection:bg-primary selection:text-white overflow-x-hidden",
+    "mobile_first": "flex flex-col w-full max-w-md mx-auto md:max-w-5xl md:flex-row md:items-start md:justify-center p-4 md:p-12 gap-8",
+    "upload_zone": {
+      "container": "relative w-full aspect-[3/4] md:aspect-square border-2 border-dashed border-white/20 rounded-3xl flex flex-col items-center justify-center gap-4 transition-all hover:border-primary/50 hover:bg-white/5 group cursor-pointer",
+      "active": "border-primary bg-primary/10"
+    },
+    "result_grid": "grid grid-cols-1 md:grid-cols-2 gap-8 w-full animate-in fade-in slide-in-from-bottom-8 duration-700"
+  },
+  "animations": {
+    "scanner_effect": {
+      "description": "A glowing horizontal line moving up and down over the image",
+      "css_class": "absolute inset-x-0 h-1 bg-accent shadow-[0_0_15px_#E879F9] animate-scan"
+    },
+    "page_transition": "animate-in fade-in zoom-in-95 duration-300",
+    "hover_lift": "transition-transform duration-200 hover:-translate-y-1"
+  },
+  "pages": {
+    "home": {
+      "structure": [
+        "Hero Header (Logo + Tagline)",
+        "Upload/Camera Zone (Central Focus)",
+        "Recent Scans (Optional, if local storage used)",
+        "Demo Flyers (Horizontal Scroll)"
+      ]
+    },
+    "preview": {
+      "structure": [
+        "Split View: Image (Left) vs Extracted Data Form (Right)",
+        "Floating Action Bar (Bottom) for 'Download .ics'"
+      ]
+    }
+  },
+  "instructions_to_main_agent": [
+    "1. SETUP: Ensure 'lucide-react' and 'framer-motion' are installed.",
+    "2. THEME: Force dark mode in 'tailwind.config.js' or 'index.css' by setting default background to #050505.",
+    "3. FONTS: Import 'Outfit' and 'Manrope' from Google Fonts in 'index.css'.",
+    "4. UPLOAD: Use 'react-dropzone' for the upload area. Style it to look like a futuristic scanner plate.",
+    "5. FORM: Use Shadcn 'Input', 'Label', 'Button' but override styles with the 'components.inputs' rules defined above.",
+    "6. LOADING: When processing, overlay the image with the 'scanner_effect' animation defined in 'animations'.",
+    "7. DOWNLOAD: The primary CTA must be the 'Download Calendar Invite' button. Make it glow.",
+    "8. MOCK DATA: If backend is not ready, use the 'demo_flyers' images to simulate a successful extraction flow."
+  ],
+  "universal_guidelines": [
+    "DO NOT use gradients for text.",
+    "DO NOT use 'Inter' for headings.",
+    "DO NOT center text in the extracted details form (left align for readability).",
+    "ALWAYS add 'data-testid' to interactive elements.",
+    "ALWAYS use 'sonner' for toast notifications (e.g., 'Event extracted successfully').",
+    "Ensure touch targets are at least 44px for mobile users."
+  ]
+}
