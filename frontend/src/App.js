@@ -595,11 +595,12 @@ function App() {
                         href={generateGoogleCalendarUrl() || '#'}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`flex-1 flex items-center justify-center bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full py-4 text-base font-medium transition-all hover:scale-[1.02] active:scale-[0.98] glow-primary ${(!eventData?.title || !eventData?.date) ? 'opacity-50 pointer-events-none' : ''}`}
+                        className={`flex-1 flex items-center justify-center bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full py-4 text-base font-medium transition-all hover:scale-[1.02] active:scale-[0.98] glow-primary ${(!eventData?.title) ? 'opacity-50 pointer-events-none' : ''}`}
                         data-testid="add-to-gcal-btn"
-                        onClick={() => {
-                          if (!eventData?.title || !eventData?.date) {
-                            toast.error('Please fill in event title and date');
+                        onClick={(e) => {
+                          if (!eventData?.title) {
+                            e.preventDefault();
+                            toast.error('Please fill in event title');
                           } else {
                             toast.success('Opening Google Calendar...');
                           }
@@ -612,7 +613,7 @@ function App() {
                       
                       <Button
                         onClick={shareEvent}
-                        disabled={!eventData?.title || !eventData?.date}
+                        disabled={!eventData?.title}
                         className="bg-[#E879F9] hover:bg-[#d946ef] text-white rounded-full px-6 py-4 font-medium transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                         data-testid="share-event-btn"
                       >
