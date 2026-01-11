@@ -112,6 +112,42 @@ function App() {
     }
   };
 
+  const addToGoogleCalendar = () => {
+    if (!eventData || !eventData.title || !eventData.date) {
+      toast.error('Please fill in event title and date');
+      return;
+    }
+
+    try {
+      // Parse date and time
+      const dateStr = eventData.date.replace(/-/g, '');
+      const timeStr = (eventData.time || '12:00').replace(/:/g, '');
+      const endTimeStr = (eventData.end_time || '').replace(/:/g, '') || 
+        String(parseInt(timeStr.slice(0, 2)) + 1).padStart(2, '0') + timeStr.slice(2);
+      
+      const startDateTime = `${dateStr}T${timeStr}00`;
+      const endDateTime = `${dateStr}T${endTimeStr}00`;
+      
+      // Build Google Calendar URL
+      const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: eventData.title,
+        dates: `${startDateTime}/${endDateTime}`,
+        details: eventData.description || '',
+        location: eventData.location || '',
+      });
+      
+      const googleCalendarUrl = `https://calendar.google.com/calendar/render?${params.toString()}`;
+      
+      // Open in new tab
+      window.open(googleCalendarUrl, '_blank');
+      toast.success('Opening Google Calendar...');
+    } catch (error) {
+      console.error('Error opening Google Calendar:', error);
+      toast.error('Failed to open Google Calendar');
+    }
+  };
+
   const downloadICS = async () => {
     if (!eventData) return;
 
