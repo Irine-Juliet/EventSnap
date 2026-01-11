@@ -431,16 +431,24 @@ function App() {
                       />
                     </div>
 
-                    <Button
-                      onClick={addToGoogleCalendar}
-                      disabled={!eventData.title || !eventData.date}
-                      className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full py-6 text-lg font-medium transition-all hover:scale-[1.02] active:scale-[0.98] glow-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 mt-4"
+                    <a
+                      href={generateGoogleCalendarUrl() || '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`w-full flex items-center justify-center bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full py-4 text-lg font-medium transition-all hover:scale-[1.02] active:scale-[0.98] glow-primary mt-4 ${(!eventData?.title || !eventData?.date) ? 'opacity-50 pointer-events-none' : ''}`}
                       data-testid="add-to-gcal-btn"
+                      onClick={() => {
+                        if (!eventData?.title || !eventData?.date) {
+                          toast.error('Please fill in event title and date');
+                        } else {
+                          toast.success('Opening Google Calendar...');
+                        }
+                      }}
                     >
                       <CalendarCheck className="w-5 h-5 mr-2" />
                       Add to Google Calendar
                       <ExternalLink className="w-4 h-4 ml-2" />
-                    </Button>
+                    </a>
 
                     <Button
                       onClick={downloadICS}
