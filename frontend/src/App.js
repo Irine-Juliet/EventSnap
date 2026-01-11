@@ -238,12 +238,12 @@ function App() {
 
   const shareEvent = async () => {
     const calendarUrl = generateGoogleCalendarUrl();
-    if (!calendarUrl) {
-      toast.error('Please fill in event title and date first');
+    if (!calendarUrl || !eventData?.title) {
+      toast.error('Please fill in event title first');
       return;
     }
 
-    const shareText = `${eventData.title}\n📅 ${eventData.date}${eventData.time ? ` at ${eventData.time}` : ''}${eventData.location ? `\n📍 ${eventData.location}` : ''}\n\nAdd to calendar: ${calendarUrl}`;
+    const shareText = `${eventData.title}${eventData.date ? `\n📅 ${eventData.date}` : ''}${eventData.time ? ` at ${eventData.time}` : ''}${eventData.location ? `\n📍 ${eventData.location}` : ''}\n\nAdd to calendar: ${calendarUrl}`;
 
     // Try native share API first (works great on mobile)
     if (navigator.share) {
