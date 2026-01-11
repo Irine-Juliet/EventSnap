@@ -117,6 +117,7 @@ function App() {
   };
 
   const [googleCalendarUrl, setGoogleCalendarUrl] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   const generateGoogleCalendarUrl = () => {
     if (!eventData || !eventData.title || !eventData.date) {
@@ -146,6 +147,44 @@ function App() {
     } catch (error) {
       console.error('Error generating Google Calendar URL:', error);
       return null;
+    }
+  };
+
+  const shareEvent = async () => {
+    const calendarUrl = generateGoogleCalendarUrl();
+    if (!calendarUrl) {
+      toast.error('Please fill in event title and date first');
+      return;
+    }
+
+    const shareText = `${eventData.title}\n📅 ${eventData.date}${eventData.time ? ` at ${eventData.time}` : ''}${eventData.location ? `\n📍 ${eventData.location}` : ''}\n\nAdd to calendar: ${calendarUrl}`;
+
+    // Try native share API first (works great on mobile)
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: eventData.title,
+          text: shareText,
+          url: calendarUrl
+        });
+        toast.success('Shared successfully!');
+        return;
+      } catch (err) {
+        // User cancelled or share failed, fall back to clipboard
+        if (err.name !== 'AbortError') {
+          console.log('Native share failed, using clipboard');
+        }
+      }
+    }
+
+    // Fallback: copy to clipboard
+    try {
+      await navigator.clipboard.writeText(shareText);
+      setCopied(true);
+      toast.success('Event link copied to clipboard!');
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      toast.error('Failed to copy link');
     }
   };
 
