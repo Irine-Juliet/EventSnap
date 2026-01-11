@@ -251,45 +251,43 @@ function App() {
                     </button>
                   </>
                 ) : (
-                  <>
-                    <div className="text-center p-6">
-                      <UploadCloud 
-                        className="w-16 h-16 mx-auto mb-4 text-[#52525B] group-hover:text-[#7C3AED] transition-colors" 
-                        strokeWidth={1.5}
-                      />
-                      <p className="text-[#A1A1AA] mb-2">
-                        {isDragActive ? 'Drop the image here' : 'Drag and drop an event flyer'}
-                      </p>
-                      <p className="text-[#52525B] text-sm">or use the buttons below</p>
-                    </div>
+                  <div className="flex flex-col items-center justify-center h-full w-full p-8">
+                    <UploadCloud 
+                      className="w-20 h-20 mb-6 text-[#7C3AED]" 
+                      strokeWidth={1.5}
+                    />
+                    <p className="text-white text-lg mb-2 font-medium">
+                      {isDragActive ? 'Drop the image here' : 'Drag and drop an event flyer'}
+                    </p>
+                    <p className="text-[#A1A1AA] text-sm mb-8">or use the buttons below</p>
                     
-                    <div className="flex gap-3">
+                    <div className="flex gap-4">
                       <Button
-                        variant="secondary"
+                        variant="outline"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleFileClick();
                         }}
-                        className="bg-white/10 hover:bg-white/20 text-white border-white/10"
+                        className="bg-[#1E1E1E] hover:bg-[#2a2a2a] text-white border-[#3a3a3a] px-6 py-5"
                         data-testid="upload-btn"
                       >
-                        <UploadCloud className="w-4 h-4 mr-2" />
+                        <UploadCloud className="w-5 h-5 mr-2" />
                         Upload
                       </Button>
                       <Button
-                        variant="secondary"
+                        variant="outline"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleCameraClick();
                         }}
-                        className="bg-white/10 hover:bg-white/20 text-white border-white/10"
+                        className="bg-[#1E1E1E] hover:bg-[#2a2a2a] text-white border-[#3a3a3a] px-6 py-5"
                         data-testid="camera-btn"
                       >
-                        <Camera className="w-4 h-4 mr-2" />
+                        <Camera className="w-5 h-5 mr-2" />
                         Camera
                       </Button>
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
 
