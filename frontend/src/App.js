@@ -166,38 +166,24 @@ function App() {
       <div className="relative z-10 p-4 md:p-8 lg:p-12">
         {/* Header */}
         <header className="text-center mb-8 md:mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-center gap-3 mb-4"
-          >
+          <div className="flex items-center justify-center gap-3 mb-4">
             <div className="p-3 rounded-2xl bg-gradient-to-br from-[#7C3AED] to-[#E879F9]">
               <CalendarCheck className="w-8 h-8 text-white" strokeWidth={1.5} />
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight font-['Outfit']">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight" style={{ fontFamily: 'Outfit, sans-serif' }}>
               Event<span className="text-[#E879F9]">Snap</span>
             </h1>
-          </motion.div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-[#A1A1AA] text-base md:text-lg max-w-md mx-auto"
-          >
-            Snap a flyer, get a calendar invite. It's that simple.
-          </motion.p>
+          </div>
+          <p className="text-[#A1A1AA] text-base md:text-lg max-w-md mx-auto">
+            Snap a flyer, get a calendar invite. It is that simple.
+          </p>
         </header>
 
         {/* Main content */}
         <main className="max-w-5xl mx-auto">
           <div className="flex flex-col md:flex-row gap-8 items-start justify-center">
             {/* Upload Zone */}
-            <motion.div 
-              className="w-full max-w-md"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-            >
+            <div className="w-full max-w-md">
               <div
                 {...getRootProps()}
                 className={`upload-zone ${isDragActive ? 'active' : ''} ${image ? 'has-image' : ''}`}
@@ -256,13 +242,14 @@ function App() {
                       className="w-20 h-20 mb-6 text-[#7C3AED]" 
                       strokeWidth={1.5}
                     />
-                    <p className="text-white text-lg mb-2 font-medium">
+                    <p className="text-white text-lg mb-2 font-medium text-center">
                       {isDragActive ? 'Drop the image here' : 'Drag and drop an event flyer'}
                     </p>
                     <p className="text-[#A1A1AA] text-sm mb-8">or use the buttons below</p>
                     
                     <div className="flex gap-4">
                       <Button
+                        type="button"
                         variant="outline"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -275,6 +262,7 @@ function App() {
                         Upload
                       </Button>
                       <Button
+                        type="button"
                         variant="outline"
                         onClick={(e) => {
                           e.stopPropagation();
@@ -293,11 +281,7 @@ function App() {
 
               {/* Extract button */}
               {image && !eventData && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="mt-6"
-                >
+                <div className="mt-6">
                   <Button
                     onClick={extractEvent}
                     disabled={isProcessing}
@@ -316,136 +300,131 @@ function App() {
                       </>
                     )}
                   </Button>
-                </motion.div>
+                </div>
               )}
-            </motion.div>
+            </div>
 
             {/* Event Details Form */}
-            <AnimatePresence>
-              {eventData && (
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className="w-full max-w-md"
-                  data-testid="event-details-card"
-                >
-                  <div className="event-card">
-                    <div className="flex items-center gap-2 mb-6">
-                      <CalendarCheck className="w-5 h-5 text-[#E879F9]" />
-                      <h2 className="text-xl font-semibold font-['Outfit']">Event Details</h2>
+            {eventData && (
+              <div
+                className="w-full max-w-md"
+                data-testid="event-details-card"
+              >
+                <div className="event-card">
+                  <div className="flex items-center gap-2 mb-6">
+                    <CalendarCheck className="w-5 h-5 text-[#E879F9]" />
+                    <h2 className="text-xl font-semibold" style={{ fontFamily: 'Outfit, sans-serif' }}>Event Details</h2>
+                  </div>
+
+                  <div className="event-form">
+                    <div className="form-group">
+                      <Label className="form-label">Event Title</Label>
+                      <Input
+                        value={eventData.title || ''}
+                        onChange={(e) => updateEventField('title', e.target.value)}
+                        placeholder="Enter event title"
+                        className="form-input bg-black/30 border-white/10 focus:border-[#7C3AED]/50"
+                        data-testid="event-title-input"
+                      />
                     </div>
 
-                    <div className="event-form stagger-children">
-                      <div className="form-group">
-                        <Label className="form-label">Event Title</Label>
-                        <Input
-                          value={eventData.title || ''}
-                          onChange={(e) => updateEventField('title', e.target.value)}
-                          placeholder="Enter event title"
-                          className="form-input bg-black/30 border-white/10 focus:border-[#7C3AED]/50"
-                          data-testid="event-title-input"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="form-group">
-                          <Label className="form-label flex items-center gap-1">
-                            <CalendarCheck className="w-3 h-3" /> Date
-                          </Label>
-                          <Input
-                            type="text"
-                            value={eventData.date || ''}
-                            onChange={(e) => updateEventField('date', e.target.value)}
-                            placeholder="YYYY-MM-DD"
-                            className="form-input bg-black/30 border-white/10 focus:border-[#7C3AED]/50"
-                            data-testid="event-date-input"
-                          />
-                        </div>
-                        <div className="form-group">
-                          <Label className="form-label flex items-center gap-1">
-                            <Clock className="w-3 h-3" /> Time
-                          </Label>
-                          <Input
-                            type="text"
-                            value={eventData.time || ''}
-                            onChange={(e) => updateEventField('time', e.target.value)}
-                            placeholder="HH:MM"
-                            className="form-input bg-black/30 border-white/10 focus:border-[#7C3AED]/50"
-                            data-testid="event-time-input"
-                          />
-                        </div>
-                      </div>
-
+                    <div className="grid grid-cols-2 gap-4">
                       <div className="form-group">
                         <Label className="form-label flex items-center gap-1">
-                          <Clock className="w-3 h-3" /> End Time (optional)
+                          <CalendarCheck className="w-3 h-3" /> Date
                         </Label>
                         <Input
                           type="text"
-                          value={eventData.end_time || ''}
-                          onChange={(e) => updateEventField('end_time', e.target.value)}
-                          placeholder="HH:MM"
+                          value={eventData.date || ''}
+                          onChange={(e) => updateEventField('date', e.target.value)}
+                          placeholder="YYYY-MM-DD"
                           className="form-input bg-black/30 border-white/10 focus:border-[#7C3AED]/50"
-                          data-testid="event-end-time-input"
+                          data-testid="event-date-input"
                         />
                       </div>
-
                       <div className="form-group">
                         <Label className="form-label flex items-center gap-1">
-                          <MapPin className="w-3 h-3" /> Location
+                          <Clock className="w-3 h-3" /> Time
                         </Label>
                         <Input
-                          value={eventData.location || ''}
-                          onChange={(e) => updateEventField('location', e.target.value)}
-                          placeholder="Enter location"
+                          type="text"
+                          value={eventData.time || ''}
+                          onChange={(e) => updateEventField('time', e.target.value)}
+                          placeholder="HH:MM"
                           className="form-input bg-black/30 border-white/10 focus:border-[#7C3AED]/50"
-                          data-testid="event-location-input"
+                          data-testid="event-time-input"
                         />
                       </div>
-
-                      <div className="form-group">
-                        <Label className="form-label flex items-center gap-1">
-                          <FileText className="w-3 h-3" /> Description
-                        </Label>
-                        <Textarea
-                          value={eventData.description || ''}
-                          onChange={(e) => updateEventField('description', e.target.value)}
-                          placeholder="Event description"
-                          className="form-input form-textarea bg-black/30 border-white/10 focus:border-[#7C3AED]/50 min-h-[100px]"
-                          data-testid="event-description-input"
-                        />
-                      </div>
-
-                      <Button
-                        onClick={downloadICS}
-                        disabled={isDownloading || !eventData.title || !eventData.date}
-                        className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full py-6 text-lg font-medium transition-all hover:scale-[1.02] active:scale-[0.98] glow-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 mt-4"
-                        data-testid="download-ics-btn"
-                      >
-                        {isDownloading ? (
-                          <>
-                            <Loader2 className="w-5 h-5 mr-2 spinner" />
-                            Generating...
-                          </>
-                        ) : (
-                          <>
-                            <Download className="w-5 h-5 mr-2" />
-                            Download Calendar Invite
-                          </>
-                        )}
-                      </Button>
                     </div>
+
+                    <div className="form-group">
+                      <Label className="form-label flex items-center gap-1">
+                        <Clock className="w-3 h-3" /> End Time (optional)
+                      </Label>
+                      <Input
+                        type="text"
+                        value={eventData.end_time || ''}
+                        onChange={(e) => updateEventField('end_time', e.target.value)}
+                        placeholder="HH:MM"
+                        className="form-input bg-black/30 border-white/10 focus:border-[#7C3AED]/50"
+                        data-testid="event-end-time-input"
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <Label className="form-label flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> Location
+                      </Label>
+                      <Input
+                        value={eventData.location || ''}
+                        onChange={(e) => updateEventField('location', e.target.value)}
+                        placeholder="Enter location"
+                        className="form-input bg-black/30 border-white/10 focus:border-[#7C3AED]/50"
+                        data-testid="event-location-input"
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <Label className="form-label flex items-center gap-1">
+                        <FileText className="w-3 h-3" /> Description
+                      </Label>
+                      <Textarea
+                        value={eventData.description || ''}
+                        onChange={(e) => updateEventField('description', e.target.value)}
+                        placeholder="Event description"
+                        className="form-input form-textarea bg-black/30 border-white/10 focus:border-[#7C3AED]/50 min-h-[100px]"
+                        data-testid="event-description-input"
+                      />
+                    </div>
+
+                    <Button
+                      onClick={downloadICS}
+                      disabled={isDownloading || !eventData.title || !eventData.date}
+                      className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full py-6 text-lg font-medium transition-all hover:scale-[1.02] active:scale-[0.98] glow-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 mt-4"
+                      data-testid="download-ics-btn"
+                    >
+                      {isDownloading ? (
+                        <>
+                          <Loader2 className="w-5 h-5 mr-2 spinner" />
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <Download className="w-5 h-5 mr-2" />
+                          Download Calendar Invite
+                        </>
+                      )}
+                    </Button>
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                </div>
+              </div>
+            )}
           </div>
         </main>
 
         {/* Footer */}
         <footer className="text-center mt-12 text-[#52525B] text-sm">
-          <p>Upload a flyer • AI extracts details • Add to your calendar</p>
+          <p>Upload a flyer - AI extracts details - Add to your calendar</p>
         </footer>
       </div>
     </div>
