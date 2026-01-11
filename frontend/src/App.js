@@ -258,7 +258,7 @@ function App() {
                         strokeWidth={1.5}
                       />
                       <p className="text-[#A1A1AA] mb-2">
-                        {isDragActive ? 'Drop the image here' : 'Drag & drop an event flyer'}
+                        {isDragActive ? 'Drop the image here' : 'Drag and drop an event flyer'}
                       </p>
                       <p className="text-[#52525B] text-sm">or use the buttons below</p>
                     </div>
