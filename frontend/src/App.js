@@ -171,20 +171,51 @@ function App() {
         return;
       } catch (err) {
         // User cancelled or share failed, fall back to clipboard
-        if (err.name !== 'AbortError') {
-          console.log('Native share failed, using clipboard');
+        if (err.name === 'AbortError') {
+          return; // User cancelled, don't show error
         }
       }
     }
 
-    // Fallback: copy to clipboard
-    try {
-      await navigator.clipboard.writeText(shareText);
+    // Fallback: copy to clipboard using multiple methods
+    const copyToClipboard = async (text) => {
+      // Method 1: Modern clipboard API
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (err) {
+          console.log('Clipboard API failed, trying fallback');
+        }
+      }
+      
+      // Method 2: Fallback using textarea
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        textArea.remove();
+        return true;
+      } catch (err) {
+        textArea.remove();
+        return false;
+      }
+    };
+
+    const success = await copyToClipboard(shareText);
+    if (success) {
       setCopied(true);
       toast.success('Event link copied to clipboard!');
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      toast.error('Failed to copy link');
+    } else {
+      toast.error('Failed to copy. Try selecting and copying manually.');
     }
   };
 
