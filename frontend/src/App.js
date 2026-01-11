@@ -119,16 +119,102 @@ function App() {
   const [googleCalendarUrl, setGoogleCalendarUrl] = useState(null);
   const [copied, setCopied] = useState(false);
 
+  const parseDateToYYYYMMDD = (dateStr) => {
+    if (!dateStr) return null;
+    
+    // If already in YYYY-MM-DD format
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+      return dateStr.replace(/-/g, '');
+    }
+    
+    // If in YYYYMMDD format
+    if (/^\d{8}$/.test(dateStr)) {
+      return dateStr;
+    }
+    
+    // Try to parse various formats
+    const months = {
+      'january': '01', 'february': '02', 'march': '03', 'april': '04',
+      'may': '05', 'june': '06', 'july': '07', 'august': '08',
+      'september': '09', 'october': '10', 'november': '11', 'december': '12',
+      'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04',
+      'jun': '06', 'jul': '07', 'aug': '08', 'sep': '09', 'sept': '09',
+      'oct': '10', 'nov': '11', 'dec': '12'
+    };
+    
+    const lowerDate = dateStr.toLowerCase().trim();
+    
+    // Match "Month Day" or "Month Day, Year" format
+    const monthDayMatch = lowerDate.match(/^([a-z]+)\s+(\d{1,2})(?:,?\s*(\d{4}))?$/);
+    if (monthDayMatch) {
+      const month = months[monthDayMatch[1]];
+      const day = monthDayMatch[2].padStart(2, '0');
+      const year = monthDayMatch[3] || new Date().getFullYear().toString();
+      if (month) {
+        return `${year}${month}${day}`;
+      }
+    }
+    
+    // Match "Day Month Year" format
+    const dayMonthMatch = lowerDate.match(/^(\d{1,2})\s+([a-z]+)(?:,?\s*(\d{4}))?$/);
+    if (dayMonthMatch) {
+      const day = dayMonthMatch[1].padStart(2, '0');
+      const month = months[dayMonthMatch[2]];
+      const year = dayMonthMatch[3] || new Date().getFullYear().toString();
+      if (month) {
+        return `${year}${month}${day}`;
+      }
+    }
+    
+    // Match MM/DD/YYYY or MM-DD-YYYY
+    const slashMatch = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+    if (slashMatch) {
+      return `${slashMatch[3]}${slashMatch[1].padStart(2, '0')}${slashMatch[2].padStart(2, '0')}`;
+    }
+    
+    // Fallback: use today's date if we can't parse
+    const today = new Date();
+    return `${today.getFullYear()}${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}`;
+  };
+
+  const parseTimeToHHMM = (timeStr) => {
+    if (!timeStr) return '1200';
+    
+    // Remove spaces and convert to lowercase
+    const cleanTime = timeStr.replace(/\s+/g, '').toLowerCase();
+    
+    // Match HH:MM format
+    const colonMatch = cleanTime.match(/^(\d{1,2}):(\d{2})$/);
+    if (colonMatch) {
+      return `${colonMatch[1].padStart(2, '0')}${colonMatch[2]}`;
+    }
+    
+    // Match HH:MM AM/PM format
+    const ampmMatch = cleanTime.match(/^(\d{1,2}):(\d{2})(am|pm)$/);
+    if (ampmMatch) {
+      let hour = parseInt(ampmMatch[1]);
+      if (ampmMatch[3] === 'pm' && hour < 12) hour += 12;
+      if (ampmMatch[3] === 'am' && hour === 12) hour = 0;
+      return `${String(hour).padStart(2, '0')}${ampmMatch[2]}`;
+    }
+    
+    // Match HHMM format
+    if (/^\d{4}$/.test(cleanTime)) {
+      return cleanTime;
+    }
+    
+    return '1200';
+  };
+
   const generateGoogleCalendarUrl = () => {
-    if (!eventData || !eventData.title || !eventData.date) {
+    if (!eventData || !eventData.title) {
       return null;
     }
 
     try {
-      // Parse date and time
-      const dateStr = eventData.date.replace(/-/g, '');
-      const timeStr = (eventData.time || '12:00').replace(/:/g, '');
-      const endTimeStr = (eventData.end_time || '').replace(/:/g, '') || 
+      const dateStr = parseDateToYYYYMMDD(eventData.date);
+      const timeStr = parseTimeToHHMM(eventData.time);
+      const endTimeStr = eventData.end_time ? parseTimeToHHMM(eventData.end_time) : 
         String(parseInt(timeStr.slice(0, 2)) + 1).padStart(2, '0') + timeStr.slice(2);
       
       const startDateTime = `${dateStr}T${timeStr}00`;
