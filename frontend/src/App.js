@@ -435,20 +435,32 @@ function App() {
                     </div>
 
                     <Button
+                      onClick={addToGoogleCalendar}
+                      disabled={!eventData.title || !eventData.date}
+                      className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full py-6 text-lg font-medium transition-all hover:scale-[1.02] active:scale-[0.98] glow-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 mt-4"
+                      data-testid="add-to-gcal-btn"
+                    >
+                      <CalendarCheck className="w-5 h-5 mr-2" />
+                      Add to Google Calendar
+                      <ExternalLink className="w-4 h-4 ml-2" />
+                    </Button>
+
+                    <Button
                       onClick={downloadICS}
                       disabled={isDownloading || !eventData.title || !eventData.date}
-                      className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white rounded-full py-6 text-lg font-medium transition-all hover:scale-[1.02] active:scale-[0.98] glow-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 mt-4"
+                      variant="outline"
+                      className="w-full bg-transparent hover:bg-white/5 text-white border-white/20 rounded-full py-5 text-sm font-medium transition-all mt-3"
                       data-testid="download-ics-btn"
                     >
                       {isDownloading ? (
                         <>
-                          <Loader2 className="w-5 h-5 mr-2 spinner" />
+                          <Loader2 className="w-4 h-4 mr-2 spinner" />
                           Generating...
                         </>
                       ) : (
                         <>
-                          <Download className="w-5 h-5 mr-2" />
-                          Download Calendar Invite
+                          <Download className="w-4 h-4 mr-2" />
+                          Download .ics file (Apple/Outlook)
                         </>
                       )}
                     </Button>
