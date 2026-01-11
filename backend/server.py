@@ -196,7 +196,7 @@ Rules:
         image_content = ImageContent(image_base64=base64_image)
         user_message = UserMessage(
             text="Please extract all event details from this flyer/poster image.",
-            image_contents=[image_content]
+            file_contents=[image_content]
         )
         
         # Send to LLM
