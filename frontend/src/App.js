@@ -113,10 +113,11 @@ function App() {
     }
   };
 
-  const addToGoogleCalendar = () => {
+  const [googleCalendarUrl, setGoogleCalendarUrl] = useState(null);
+
+  const generateGoogleCalendarUrl = () => {
     if (!eventData || !eventData.title || !eventData.date) {
-      toast.error('Please fill in event title and date');
-      return;
+      return null;
     }
 
     try {
@@ -138,14 +139,10 @@ function App() {
         location: eventData.location || '',
       });
       
-      const googleCalendarUrl = `https://calendar.google.com/calendar/render?${params.toString()}`;
-      
-      // Open in new tab
-      window.open(googleCalendarUrl, '_blank');
-      toast.success('Opening Google Calendar...');
+      return `https://calendar.google.com/calendar/render?${params.toString()}`;
     } catch (error) {
-      console.error('Error opening Google Calendar:', error);
-      toast.error('Failed to open Google Calendar');
+      console.error('Error generating Google Calendar URL:', error);
+      return null;
     }
   };
 
